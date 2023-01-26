@@ -5,11 +5,13 @@ import app from "./firebase/firebase.init";
 import Home from "./components/Home";
 import About from "./components/About";
 import Profile from "./components/Profile";
+import RequireAuth from "./components/RequireAuth";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import NotFound from "./components/NotFound";
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
+import RequireAuth2 from "./components/RequireAuth2";
 
 const auth = getAuth(app);
 
@@ -28,13 +30,34 @@ const App = () => {
 
   return (
     <div className="app">
-      <Navbar />
+      <Navbar user={user} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/profile" element={<Profile user={user} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth user={user}>
+              <Profile user={user} setUser={setUser} />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RequireAuth2 user={user}>
+              <Login />
+            </RequireAuth2>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <RequireAuth2 user={user}>
+              <Register />
+            </RequireAuth2>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
