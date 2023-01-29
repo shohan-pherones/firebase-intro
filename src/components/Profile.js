@@ -11,7 +11,7 @@ const Profile = ({ user, setUser }) => {
     signOut(auth)
       .then(() => {
         console.log("signed out");
-        setUser(null);
+        setUser("");
         navigate("/login");
       })
       .catch((error) => {
